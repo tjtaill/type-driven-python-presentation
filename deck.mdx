@@ -3,150 +3,652 @@ import {
   CodeSurferColumns,
   Step,
 } from "code-surfer";
-import { github, vsDark } from "@code-surfer/themes";
 
-export const theme = vsDark;
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-ini";
 
-# Hello 👋
+import {Context, Node} from 'react-mathjax2';
 
-You are using [MDX Deck](https://github.com/jxnblk/mdx-deck) and [Code Surfer](https://codesurfer.pomb.us)
+import variance from  "./out/src/variance/variance.png";
+
+
+#### Code and Slides
+
+1. Code on hard slides I do my best to make it Easier
+2. The code and slides for this presentation are at https://github.com/tjtaill/type-driven-python-presentation
+3. Ask questions if you don't understand or I am going to fast
+
+---
+
+#### Type Driven Development
+
+1. Like it's more popular sibling (Test Driven Development) it is about rapid feedback
+2. Instead of writing test you write types and run your program through a type checker MyPy/Pyre/Pyright|Pylance/Pytype
+3. Complimentary to Test Driven Development
+4. Most used in Idris and F# communities
+5. Considered an extension of Domain Driven Design in the F# community
 
 ---
 
 <CodeSurfer>
 
-```js title="This is a title" subtitle="and this a subtitle"
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```js
-function lorem(ipsum, dolor = 1) {
-  const sit = ipsum == null ? 0 : ipsum.sit;
-  dolor = sit - amet(dolor);
-  return sit
-    ? consectetur(ipsum, 0, dolor < 0 ? 0 : dolor)
-    : [];
-}
-
-function adipiscing(...elit) {
-  if (!elit.sit) {
-    return [];
-  }
-
-  const sed = elit[0];
-  return eiusmod.tempor(sed) ? sed : [sed];
-}
-
-function incididunt(ipsum, ut = 1) {
-  ut = labore.et(amet(ut), 0);
-  const sit = ipsum == null ? 0 : ipsum.sit;
-
-  if (!sit || ut < 1) {
-    return [];
-  }
-
-  let dolore = 0;
-  let magna = 0;
-  const aliqua = new eiusmod(labore.ut(sit / ut));
-
-  while (dolore < sit) {
-    aliqua[magna++] = consectetur(
-      ipsum,
-      dolore,
-      (dolore += ut)
-    );
-  }
-
-  return aliqua;
-}
-```
-
-```diff 1[10:14],2[15:19],3[22:27],10:12
-
+```py 1 title="Motivation how many possible assigments?"
+val = ?
 ```
 
 </CodeSurfer>
 
 ---
 
-<CodeSurferColumns themes={[vsDark, github]}>
+#### Massive possibilities for a single line of code
 
-<Step>
-
-```js
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
-```
-
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-```
-
-</Step>
-
-<Step>
-
-```js
-const lorem = (ipsum, dolor, sit) => {
-  const amet = dolor - ipsum;
-  return consectetur.adipiscing(
-    {
-      elit: sed.eiusmod(sit - dolor) / amet + 2,
-    },
-    (tempor, incididunt) => ipsum + amet * incididunt
-  );
-};
-
-const magna = aliqua => aliqua.ut((enim, ad) => enim, 0);
-```
-
-```js
-const minim = (ad, enim) => dolore.magna(ad / enim);
-
-const sed = (eiusmod, tempor, incididunt) => {
-  const ut = tempor - eiusmod;
-  return labore.et(
-    {
-      amet: dolore.magna(incididunt - tempor) / ut + 2,
-    },
-    (aliqua, elit) => eiusmod + ut * elit
-  );
-};
-```
-
-</Step>
-
-</CodeSurferColumns>
+<Context input="tex">
+  <table>
+    <thead>
+      <tr>
+        <td>type</td><td>value</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>int</td><td><Node inline>{"2^{64}"}</Node></td>
+      </tr>
+      <tr>
+        <td>bool</td><td><Node inline>{"2^{1}"}</Node></td>
+      </tr>
+        <td>None</td><td><Node inline>{"2^{0}"}</Node></td>
+      <tr>
+        <td>float</td><td><Node inline>{"2^{1024}"}</Node></td>
+      </tr>
+      <tr>
+        <td>str</td><td><Node inline>{"2^{63} \\times 2^{16} = 2^{79}"}</Node></td>
+      </tr>
+    </tbody>
+  </table>
+</Context>
 
 ---
 
-docs:  
-[codesurfer.pomb.us](https://codesurfer.pomb.us)
+<CodeSurfer>
+
+  ```py title="Python Type Annotations" file="./src/bad_assingment.py"
+  ```
+
+  ```py 1:1 title="Bad assignment" file="./src/bad_assingment.py"
+  ```
+
+  ```py 4:5 title="Pyright|Pylance error message" file="./src/bad_assingment.py"
+  ```
+
+  ```py 7:7 title="mypy error message" file="./src/bad_assingment.py"
+  ```
+
+</CodeSurfer>
+
+---
+
+#### Enabling Pyright|Pylance in vscode
+
+1. Install Vscode extension Pylance
+2. in local or global settings.json add the following key value pair `"python.analysis.typeCheckingMode": "basic"`
+3. configure pyrightconfig.json or [tool.pyright] section of a pyproject.toml in root of project
+
+---
+
+<CodeSurfer>
+
+
+```ini title="pyright/pylance type checker config" file="./pyproject.toml"
+```
+
+
+```ini 3:4 title="preventing untype functions is essential to effective type checking" file="./pyproject.toml"
+```
+
+</CodeSurfer>
+
+---
+
+#### Enabling MyPy in vscode
+
+1. Install vscode extension MyPy
+2. `pip install mypy`
+3. create a mypy.ini file in root directory
+
+---
+
+<CodeSurfer>
+
+
+```ini title="mypy type checker config" file="./mypy.ini"
+```
+
+
+```ini 7:9 title="preventing untype functions is essential to effective type checking" file="./mypy.ini"
+```
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+ 
+  ```py title="Python Type Annotations 101" file="./src/type_annotations101.py"
+  ```
+
+  ```py 1:10 title="basic variable annotations" file="./src/type_annotations101.py"
+  ```
+
+  ```py 14:14 title="type arguments and arrow -> for callable return type" file="./src/type_annotations101.py"
+  ```
+
+  ```py 18:18 title="can use your own types as well" file="./src/type_annotations101.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="The problems with Any type and Unknow Type" file="./src/untyped_function.py"
+  ```
+
+  ```py 1:1 title="typing module has a lot of useful types Any being an exception" file="./src/untyped_function.py"
+  ```
+
+  ```py 4:5 title="untyped functions defeat the type checker" file="./src/untyped_function.py"
+  ```
+
+  ```py 8:9 title="by polluting other scopes" file="./src/untyped_function.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="python annotations 201" file="./src/type_annotations201.py"
+  ```
+
+  ```py 1:1 title="typing modules collections required for python 3.8 and lower" file="./src/type_annotations201.py"
+  ```
+
+  ```py 3:3 title="pre python 3.9 way to annotate collections" file="./src/type_annotations201.py"
+  ```
+
+  ```py 4:8 title="post python 3.9 way to annotate collections" file="./src/type_annotations201.py"
+  ```
+
+  ```py 14:14 title="doesn't type check" file="./src/type_annotations201.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+#### Composition Types Sum vs Product
+
+
+| Type   | Description | Examples |
+|--------|-------------|----------|
+|Product | Composition types whose enumerated possible values<br></br>are the cartesian product of all composed members | <ul><li>Typescript : Object, Tuple, Intersections, Interface, Class</li><li>Python : class, dict, tuple, list, set</li></ul> |
+|Sum     | Composition type whose enumerated possible values<br></br>are the sum of all composed members                | <ul><li>Typescript : Unions, enum</li><li>Python: Optional, Enum, Union</li></ul>                           |
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Sum Types" file="./src/sum_types.py"
+  ```
+
+  ```py 5:6 title="" file="./src/sum_types.py"
+  ```
+
+  ```py 9:12 title="python enums since 3.4" file="./src/sum_types.py"
+  ```
+
+  ```py 15:16 title="python enums are type safe" file="./src/sum_types.py"
+  ```
+
+  ```py 19:21 title="Optional since 3.5 pre 3.10" file="./src/sum_types.py"
+  ```
+
+  ```py 24:27 title="Create your own unions" file="./src/sum_types.py"
+  ```
+
+  ```py 30:34 title="example of union use" file="./src/sum_types.py"
+  ```
+
+  ```py 37:39 title="example of union use" file="./src/sum_types.py"
+  ```
+
+  ```py 41:46 title="sum type error handling gets the type checker to help" file="./src/sum_types.py"
+  ```
+
+  ```py 41:46 title="example of union use" file="./src/sum_types.py"
+  ```
+
+  ```py 48:53 title="python 3.10 new match case for enums" file="./src/sum_types.py"
+  ```
+
+  ```py 55:61 title="python 3.10 new match case statement for unions" file="./src/sum_types.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+#### Typing Strategies
+
+
+| Typing | Description | Languages |
+|--------|-------------|-----------|
+| Nominal | Typing based on name not data shape, better error messages | Java, Python Classes, C++ Classes |
+| Structural | Typing based on shape of data, more powerful and flexible, bad error messages | Typescript, Python Protocol, C++ Templates |
+| Duck | Flexible like Structural typing but no compile time safety doesn't suffer from bad error messages | Javascript, Untype Python |
+| Gradual | Allow a gradual transition from Duck typing to Nominal and/or Structural (Any) | Typescript, Hack(PHP), Python |
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Structural Typing" file="./src/structural.py"
+  ```
+
+  ```py 5:6 title="import Protocol" file="./src/structural.py"
+  ```
+
+  ```py 14:17 title="Nominal Subtyping" file="./src/structural.py"
+  ```
+
+  ```py 26:26 title="Nominal Type Check Failure" file="./src/structural.py"
+  ```
+
+  ```py 40:46 title="Structural Type Check Failure" file="./src/structural.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Phantom Typing" file="./src/phantom_money.py"
+  ```
+
+  ```py 5:5 title="import generic and typevar" file="./src/phantom_money.py"
+  ```
+
+  ```py 8:16 title="define currency types" file="./src/phantom_money.py"
+  ```
+
+  ```py 19:21 title="define generic money class" file="./src/phantom_money.py"
+  ```   
+
+  ```py 24:25 title="generic function that can only add money quantities with same currencies" file="./src/phantom_money.py"
+  ```
+
+  ```py 31:32 title="type check money addition" file="./src/phantom_money.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+```
+APIs should be easy to use and "hard to misuse".
+It should be easy to do simple things.
+possible to do complex things.
+"impossible, or at least difficult, to do wrong things"
+-- Joshua Bloch
+```
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="phantom types for state machine" file="./src/phantom_state.py"
+  ```
+
+  ```py 1:1 title="import generic and typevar" file="./src/phantom_state.py"
+  ```
+
+  ```py 5:23 title="define phantom states" file="./src/phantom_state.py"
+  ```
+
+  ```py 25:26 title="define generic typevars" file="./src/phantom_state.py"
+  ```
+
+  ```py 29:31 title="define generic Data class with state and value" file="./src/phantom_state.py"
+  ```
+
+  ```py 34:51 title="define generic state transition functions" file="./src/phantom_state.py"
+  ```
+
+  ```py 57:59 title="wrong call sequence fails to type check" file="./src/phantom_state.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+#### Showing Relevance
+
+<Context input="tex">
+<ol>
+  <li><Node inline>{"\\binom{n}{k} = \\frac{n!}{k!(n - k)!}"}</Node></li>
+  <li><Node inline>{"\\binom{n+k-1}{k} = \\frac{n+k-1!}{k!(n-1)!}"}</Node></li>
+  <li>If we have 180 currencies in the world</li>
+  <li><Node inline>{"\\binom{180+2-1}{2} = \\frac{181!}{2!(179)!} = 2915910"}</Node></li>
+</ol>
+</Context>
+
+---
+
+#### ValueObject
+
+1. Not a compile time/typecheck time pattern
+2. It is still using types to enforce correctness and constrain program at runtime though
+3. ValueObjects are often simple values that have restrictions
+4. ValueObjects might also be multiple values that are constrained together like TimeRange or DateRange
+5. ValueObjects are immutable
+6. ValueObjects enforce pre conditions, post condition and invariants like in Design By Contract Eiffel
+7. ValueObjects usually implement standard interface methods like hash, serialize etc.
+8. Comes from Domain Driven Design very popular in Java, C# community.
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Value Object in Python" file="./src/value_objects.py"
+  ```
+
+  ```py 9:9 title="Inherit from namedtuple to make iummtable" file="./src/value_objects.py"
+  ```
+
+  ```py 10:11 title="Define init signature to forbid None being passed in" file="./src/value_objects.py"
+  ```
+
+  ```py 13:16 title="only except valid email strings" file="./src/value_objects.py"
+  ```
+
+  ```py 19:20 title="function that uses value object won't need defensive programming" file="./src/value_objects.py"
+  ```
+
+   ```py 23:27 title="value object usage" file="./src/value_objects.py"
+  ```
+
+  
+</CodeSurfer>
+
+
+---
+
+#### Two modes of Failure
+
+| Failure Mode | Programming Style | Pros | Cons |
+|--------------|-------------------|------|------|
+| Fail Fast    | Offensive programming cause failure as soon as possible | Easier to debug, Code is cleaner | Failures more visible to User |
+| Fail Slowly  | Defensive programming try to deal with failure/repair | Hide failures from user, sometimes repair is sucessful | Harder to debug, Code is littered with if else, User experience mysterious failures |
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Fail Slow vs Fail Fast" file="./src/fail_fast.py"
+  ```
+
+  ```py 3:5 title="Fail Slow often blows up later far from error" file="./src/fail_fast.py"
+  ```
+
+  ```py 6:8 title="Fail Fast blows up immediately making the error more obvious" file="./src/fail_fast.py"
+  ```
+
+</CodeSurfer>
+
+---
+
+<img src={variance}/>
+
+---
+
+#### Liskov Substition Principle
+
+Rules for determining when a type is a proper subtype of another type
+
+For overriden methods in sutypes the following rules apply
+
+1. Arguments of overriden methods are Contravariant meaning in the contract of the method signature you can ask for less i.e more general but not more i.e more specific. (Precondition)
+2. Return types of overriden methods are Covariant meaning you can return more that you promised i.e more specific but not less i.e more general. (Post condition)
+3. Methods can not throw new exceptions types except if they are Covariant subtypes of exceptions thrown in parent method. (Post condition)
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Variance" file="./src/variance.py"
+  ```
+
+  ```py 1:1 title="import from typing" file="./src/variance.py"
+  ```
+
+  ```py 1:1 title="import from typing" file="./src/variance.py"
+  ``` 
+
+  ```py 4:17 title="define type hiearachy" file="./src/variance.py"
+  ```
+
+  ```py 4:17 title="define type hiearachy" file="./src/variance.py"
+  ```
+
+  ```py 4:17 title="define type hiearachy" file="./src/variance.py"
+  ```
+
+  ```py 24:29 title="typed functions to assign to callable signatures" file="./src/variance.py"
+  ```
+
+  ```py 32:35 title="type checks follows liskov Substition principles" file="./src/variance.py"
+  ```
+
+  ```py 36:41 title="doesn't type checks violates liskov Substition principles" file="./src/variance.py"
+  ```
+
+  ```py 43:45 title="variance also concerns collections" file="./src/variance.py"
+  ```
+
+  ```py 47:49 title="like tuples frozenset is covariant because immutable read only" file="./src/variance.py"
+  ```  
+
+  ```py 51:60 title="read/write collections like list, set and dict must be invariant" file="./src/variance.py"
+  ```
+
+
+</CodeSurfer>
+
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Contravariant write only collection wrapper" file="./src/contravariance.py"
+  ```
+
+  ```py 1:2 title="import typing and hiearachy" file="./src/contravariance.py"
+  ```
+
+  ```py 1:2 title="import typing and hiearachy" file="./src/contravariance.py"
+  ```
+
+  ```py 5:6 title="typevar generics notice contravaraint flag" file="./src/contravariance.py"
+  ```
+
+  ```py 5:6 title="typevar generics notice contravaraint flag" file="./src/contravariance.py"
+  ```
+
+  ```py 9:11 title="normal list is invariant so wrap in generic class wich is contravariant" file="./src/contravariance.py"
+  ```
+
+  ```py 4:17 title="define an invariant method to support write only" file="./src/contravariance.py"
+  ```
+
+  ```py 20:25 title="contrariant assignments of wrapper" file="./src/contravariance.py"
+  ```
+
+  ```py 26:29 title="only bottom type in this case C is safe to write" file="./src/contravariance.py"
+  ```
+
+
+</CodeSurfer>
+
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Covariance wrapper for list" file="./src/covariance.py"
+  ```
+
+  ```py 1:2 title="imports of typing and hierarchy" file="./src/covariance.py"
+  ```
+
+  ```py 9:11 title="similar to write only list but this time covariant" file="./src/covariance.py"
+  ```
+
+  ```py 14:15 title="generic invariant functions" file="./src/covariance.py"
+  ```
+
+  ```py 18:20 title="covariant assingment" file="./src/covariance.py"
+  ```
+
+  ```py 21:22 title="can't annotate loop variables so need to predeclare if you don't want't them inferred" file="./src/covariance.py"
+  ```
+
+  ```py 23:28 title="only can safely read upper bound top from covariant collections" file="./src/covariance.py"
+  ```
+
+  
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+  
+
+  ```py title="type safe flexible copy" file="./src/copy.py"
+  ```
+
+  ```py 1:5 title="imports" file="./src/copy.py"
+  ```
+
+  ```py 10:12 title="generic copy function" file="./src/copy.py"
+  ```
+
+  ```py 15:17 title="variant assignments" file="./src/copy.py"
+  ```
+
+  ```py 18:20 title="type checked function calls" file="./src/copy.py"
+  ```
+
+  ```py 21:22 title="failed type check function calls" file="./src/copy.py"
+  ```
+
+  ```py 23:27 title="more example" file="./src/copy.py"
+  ```
+
+
+</CodeSurfer>
+
+---
+
+#### Dependant Types
+
+Where as generics or parametric polymorphism can be seen as functions that take types and returns other types. 
+Dependant Types can be viewed as functions that take value literals and return types. 
+Not many propgramming languages have any support for depandant types. 
+Few popular programming languages that have any level of support and even those that do
+have very minimal/limited support. 
+Dependant Types are usually in the domain of Functional Programming Languages and theorem provers. 
+Idris being the one of the few programming languages that is based on dependant types that actually focuses on building programs instead of proving properties of programs.
+
+---
+
+<CodeSurfer>
+
+
+  ```py title="Dependant Types in python" file="./src/dependant_types.py"
+  ```
+
+  ```py 1:3 title="imports" file="./src/dependant_types.py"
+  ```
+
+  ```py 6:15 title="union of literals" file="./src/dependant_types.py"
+  ```
+
+  ```py 18:20 title="overload informs type checker different argument return different types" file="./src/dependant_types.py"
+  ```
+
+  ```py 18:29 title="overload informs type checker different argument return different types" file="./src/dependant_types.py"
+  ```
+
+  ```py 32:40 title="type checking of function calls" file="./src/dependant_types.py"
+  ```
+  
+  
+</CodeSurfer>
+
+---
+
+<CodeSurfer>
+
+  ```cpp title="Dependant Types Example in C++" file="./src/dependant-types.cpp"
+  ```
+
+  ```cpp 5:5 title="The literal 3 defines a new type" file="./src/dependant-types.cpp"
+  ```
+
+  ```cpp 6:6 title="The literal 4 defines a new type doesn't match previous type" file="./src/dependant-types.cpp"
+  ```
+
+</CodeSurfer>
+
+---
+
+```
+Making illegal states unrepresentable is all about statically proving that all
+runtime values (without exception) correspond to valid objects in the business domain.
+The effect of this technique on eliminating meaningless runtime states
+is astounding and cannot be overstated.
+-- John A De Goes (@jdegoes) January 28, 2019
+```
+
+---
+
+#### Summary
+
+1. For large code bases static/gradual typing is not optional
+2. In many situations development speed and dynamic typing are still king
+3. Can architect your code bases so they don't get large Microservices or Pipes and Filters
+4. Gradual Type systems like Typescript, Hack, (Mypy, Pyre, Pytype, Pyright) are ways to salvage large dynamically typed code bases
+5. Questions and Feedback

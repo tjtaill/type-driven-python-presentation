@@ -1,0 +1,7 @@
+[tool.pyright]
+include = ["src"]
+reportUnknownParameterType = true
+reportUnknownArgumentType = true
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.10"

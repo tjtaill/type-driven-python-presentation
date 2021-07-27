@@ -1,0 +1,6 @@
+@startuml variance
+title Variance, Invariance, Contravariance
+A <|.. B
+B <|.. C
+C <|.. D
+@enduml

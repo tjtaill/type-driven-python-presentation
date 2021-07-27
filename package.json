@@ -2,13 +2,13 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "start": "mdx-deck deck.mdx",
-    "build": "mdx-deck build deck.mdx",
-    "test": "echo \"there are no tests\""
+    "start": "mdx-deck --no-html deck.mdx",
+    "build": "mdx-deck --no-html build deck.mdx"
   },
   "devDependencies": {
     "code-surfer": "3.1.0",
-    "mdx-deck": "3.0.13"
+    "mdx-deck": "3.0.13",
+    "react-mathjax2": "0.0.2"
   },
   "name": "type-driven-python-presentation"
 }
