@@ -1,4 +1,4 @@
-from typing import Dict, List, Set, Tuple  # python 3.8 lower requires to use this
+from typing import Dict, List, Set, Tuple  # python 3.8 and lower requires to use this
 
 d: Dict[str, int] = {"answer": 42}  # python pre 3.9 way
 d1: dict[str, int] = {
